@@ -1,0 +1,80 @@
+name: mozart_flutter_app
+description: App.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.1.2 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+
+  # StateManagement
+  bloc: ^8.1.2
+  flutter_bloc: ^8.1.3
+  provider: ^6.0.5
+
+  # Local Storage
+  shared_preferences: ^2.2.2
+
+  #launch_review:
+  flutter_rating_bar:
+
+  # To Go Another App
+  url_launcher: ^6.2.1
+
+  carousel_slider:
+
+  # Custom Field On OTP
+  pinput: ^3.0.1
+  #phone text field
+  intl_phone_number_input: ^0.7.3+1
+
+  # Lottie Files
+  lottie: ^2.7.0
+
+  # SVG Picture
+  flutter_svg: ^2.0.9
+
+  # To Call Backend
+  dio: ^5.3.3
+
+  # To Make All Sizes Responsive
+  flutter_screenutil: ^5.9.0
+
+  # To Create Animation Between Navigation
+  page_transition: ^2.1.0
+
+ # boder
+  dotted_border: ^2.1.0
+
+  # font
+  google_fonts:
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  generate: true
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/lotties/
+  #   - images/a_dot_ham.jpeg
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
