@@ -557,7 +557,7 @@ class RouteGenerator {
         final productId = settings.arguments as String;
 
         return PageTransition(
-          child: EditToProduct(productId: productId),
+          child: EditToProduct(productId: productId, title: 'title', titleAr: 'titleAr', description: 'description', descriptionAr: 'descriptionAr', quantity: 'quantity', priceNormal: 'priceNormal', priceWholesale: 'priceWholesale'),
           type: PageTransitionType.fade,
           settings: settings,
           reverseDuration: const Duration(milliseconds: 250),

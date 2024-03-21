@@ -17,6 +17,10 @@ import 'package:mozart_flutter_app/features/home_layout/home/data/models/specifi
 import 'package:mozart_flutter_app/features/home_layout/home/data/models/specific_product_model.dart';
 import 'package:mozart_flutter_app/utils/constants/constants.dart';
 
+import '../../../../core/dio-helper.dart';
+import '../../../../utils/custom_widgets/custom_stackbar.dart';
+import '../../../admin/admin_home_screen/models/banner2-model.dart';
+
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
@@ -341,5 +345,155 @@ class HomeCubit extends Cubit<HomeState> {
       }
       emit(UploadImageToAdminErrorState());
     });
+  }
+
+  Future<Response?> deleteBannerProduct(String productId) async {
+    emit(GetBannersLoadingState());
+    try {
+      Dio dio = Dio();
+      dio.options.headers['Authorization'] =
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWYxOTYzODExMTMwZGRlZjYzZDFhZjUiLCJpYXQiOjE3MTA2MjgwNjUsImV4cCI6MTcxODQwNDA2NX0.AOAoD5F_htthhK5ZMgrv8_Hx2iN6lrtMkl2EQ2NGQRA';
+      Response response = await dio.delete(
+          'https://onlinestore-xors.onrender.com/api/v1/banners/$productId');
+      print(response.toString());
+      print('bannnnnnnnnnnnnners');
+      print(MyCache.getString(key: CacheKeys.token));
+
+      emit(DeleteBannersSucessState());
+
+      return response;
+    } catch (error) {
+      print("Error fetching data: $error");
+      // CustomSnackBar.showMessage(
+      //   context,
+      //   message: '  حدث خطأ أو لايوجد عناصر لمسحها',
+      //   messageColor: Colors.red,
+      // );
+      emit(DeleteBannersErrorState());
+      return null;
+    }
+  }
+
+  ProductModel? productModel2;
+
+  Future<Response?> deleteBanners(BuildContext context) async {
+    emit(GetBannersLoadingState());
+    try {
+      Dio dio = Dio();
+      dio.options.headers['Authorization'] =
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWYxOTYzODExMTMwZGRlZjYzZDFhZjUiLCJpYXQiOjE3MTA2MjgwNjUsImV4cCI6MTcxODQwNDA2NX0.AOAoD5F_htthhK5ZMgrv8_Hx2iN6lrtMkl2EQ2NGQRA';
+      Response response = await dio
+          .delete('https://onlinestore-xors.onrender.com/api/v1/banners/');
+      print(response.toString());
+      print('bannnnnnnnnnnnnners');
+      print(MyCache.getString(key: CacheKeys.token));
+      CustomSnackBar.showMessage(
+        context,
+        message: 'تم المسح بنجاح',
+        messageColor: Colors.green,
+      );
+
+      emit(DeleteBannersSucessState());
+      return response;
+    } catch (error) {
+      print("Error fetching data: $error");
+      CustomSnackBar.showMessage(
+        context,
+        message: '  حدث خطأ أو لايوجد عناصر لمسحها',
+        messageColor: Colors.red,
+      );
+      emit(DeleteBannersErrorState());
+      return null;
+    }
+  }
+
+  final String baseUrl2 = 'https://onlinestore-xors.onrender.com/api/v1/';
+
+  final token = MyCache.getString(
+      key: CacheKeys.token); // Ensure this returns a valid token
+  Future<Response?> getProducts() async {
+    emit(GetBannersLoadingState());
+    try {
+      Dio dio = Dio();
+      dio.options.headers['Authorization'] =
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWYxOTYzODExMTMwZGRlZjYzZDFhZjUiLCJpYXQiOjE3MTA2MjgwNjUsImV4cCI6MTcxODQwNDA2NX0.AOAoD5F_htthhK5ZMgrv8_Hx2iN6lrtMkl2EQ2NGQRA';
+      Response response = await dio
+          .get('https://onlinestore-xors.onrender.com/api/v1/products');
+      print(response.toString());
+      print(MyCache.getString(key: CacheKeys.token));
+      productModel2 = ProductModel.fromJson(response.data);
+      emit(GetBannersSuccessState());
+      return response;
+    } catch (error) {
+      print("Error fetching data: $error");
+      emit(GetBannersErrorState());
+      return null;
+    }
+  }
+
+  Future<void> CreateBanner(
+      {required String productId, required BuildContext context}) async {
+    try {
+      final token = MyCache.getString(
+          key: CacheKeys.token); // Ensure this returns a valid token
+      print(token); // Debugging purpose
+
+      final response = await DioHelper2.postData(
+        data: {
+          'productIds': [productId]
+        },
+        url: 'banners',
+        token:
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWYxOTYzODExMTMwZGRlZjYzZDFhZjUiLCJpYXQiOjE3MTA4Nzc3MDIsImV4cCI6MTcxODY1MzcwMn0.oWb-KMf7A3_JSoNz-Q5BVpMq62cSKYNFhpXSpDiIoz8',
+      );
+
+      print('Banner created successfully: ${response.data}');
+      emit(CreateBannersSucessState());
+    } on DioError catch (dioError) {
+      if (dioError.response != null) {
+        print(
+            'DioError: ${dioError.response?.statusCode} - ${dioError.response?.data}');
+        emit(CreateBannersErrorState());
+      } else {
+        print('DioError: ${dioError.message}');
+        emit(CreateBannersErrorState());
+      }
+    } catch (e) {
+      // Handle any other errors
+      emit(CreateBannersErrorState());
+      print('Error creating banner: $e');
+    }
+  }
+
+  Banner2Model? banner2model;
+  List<Banner2Model> dataList = [];
+
+  Future<Response?> getBanners() async {
+    emit(GetBannersLoadingState());
+    try {
+      Dio dio = Dio();
+      dio.options.headers['Authorization'] =
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWYxOTYzODExMTMwZGRlZjYzZDFhZjUiLCJpYXQiOjE3MTA2MjgwNjUsImV4cCI6MTcxODQwNDA2NX0.AOAoD5F_htthhK5ZMgrv8_Hx2iN6lrtMkl2EQ2NGQRA';
+      Response response = await dio
+          .get('https://onlinestore-xors.onrender.com/api/v1/banners/products');
+      print(response.toString());
+
+      dataList = (response.data['data'] as List)
+          .map((item) => Banner2Model.fromJson(item))
+          .toList();
+
+      print('Data Length: ${dataList.length}');
+      print('bannnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnners');
+
+      print('Banner Title: ${dataList[0].title}');
+      print('Banner Price: ${dataList[0].priceNormal}');
+
+      emit(GetBannersSuccessState());
+      return response;
+    } catch (error) {
+      print("Error fetching data: $error");
+      emit(GetBannersErrorState());
+      return null;
+    }
   }
 }

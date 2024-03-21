@@ -410,4 +410,53 @@ class AdminHomeCubit extends Cubit<AdminHomeState> {
       emit(DeleteOneProductErrorState());
     });
   }
+
+
+  Future<void> updateProduct({
+    required String id,
+    required String titleAr,
+    required String description,
+    required String descriptionAr,
+    required String quantity,
+    required String priceNormal,
+    required String priceWholesale,
+
+  }) async {
+    try {
+      Dio dio = Dio();
+
+      String url = 'https://onlinestore-xors.onrender.com/api/v1/products/$id';
+
+      Map<String, dynamic> data = {
+        "titleAr": titleAr,
+        "description": description,
+        "descriptionAr": descriptionAr,
+        "quantity": quantity,
+        "priceNormal": priceNormal,
+        "priceWholesale": priceWholesale
+      };
+
+
+      Options options = Options(
+        headers: {
+          'Authorization': 'Bearer ${MyCache.getString(key: CacheKeys.token)}',
+
+        },
+      );
+
+      Response response = await dio.put(url, data: data, options: options);
+
+      // Handle the response
+      if (response.statusCode == 200) {
+        print('Product updated successfully.');
+        emit(EditSpecificProductSuccessState());
+
+      } else {
+        print('Failed to update product: ${response.statusCode}');
+        emit(EditSpecificProductErrorState());
+      }
+    } catch (error) {
+      print('Error updating product: $error');
+    }
+  }
 }

@@ -15,7 +15,7 @@ class CustomDetailsProductInWishList extends StatefulWidget {
     Key? key,
     required this.image,
     required this.text,
-     this.text2,
+    this.text2,
     this.email,
     this.phone,
     this.quantity = 1,
@@ -68,7 +68,7 @@ class _CustomDetailsProductInWishListState
                     borderRadius: 25.r,
                     width: 400.w,
                     height: 120.h,
-                        fit: BoxFit.cover,
+                    fit: BoxFit.cover,
                   )),
                   SizedBox(height: 5.h),
                   Text(
@@ -284,8 +284,12 @@ class _CustomDetailsProductInWishListState
                   // ),
                   // ],
                   // ),
-                  widget.widgetAddToCart == null ? Container() : SizedBox(width: 5.w),
-                  widget.widgetAddToCart == null ? Container() :  const Divider(color: Colors.black38),
+                  widget.widgetAddToCart == null
+                      ? Container()
+                      : SizedBox(width: 5.w),
+                  widget.widgetAddToCart == null
+                      ? Container()
+                      : const Divider(color: Colors.black38),
                   widget.widgetAddToCart ?? Container(),
                 ],
               ),

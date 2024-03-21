@@ -7,6 +7,8 @@ import 'package:mozart_flutter_app/provider/provider.dart';
 import 'package:mozart_flutter_app/utils/constants/bloc_observer.dart';
 import 'package:provider/provider.dart';
 
+import 'core/dio-helper.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
@@ -17,6 +19,7 @@ void main() async {
   ]);
 
   await MyCache.init();
+  DioHelper2.init();
   runApp(
     ChangeNotifierProvider(
       child: MozartApp(),

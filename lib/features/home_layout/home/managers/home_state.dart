@@ -11,6 +11,10 @@ class GetBannersLoadingState extends HomeState {}
 class GetBannersSuccessState extends HomeState {}
 
 class GetBannersErrorState extends HomeState {}
+class CreateBannersErrorState extends HomeState {}
+class CreateBannersSucessState extends HomeState {}
+class DeleteBannersSucessState extends HomeState {}
+class DeleteBannersErrorState extends HomeState {}
 
 /// Get Specific Banners
 class GetSpecificBannersLoadingState extends HomeState {}

@@ -2,9 +2,11 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mozart_flutter_app/config/app_assets.dart';
 import 'package:mozart_flutter_app/config/app_routes.dart';
 import 'package:mozart_flutter_app/features/admin/admin_home_screen/managers/admin_home_cubit.dart';
+import 'package:mozart_flutter_app/features/admin/admin_home_screen/presentation/screens/bannner/banner-admin-screen.dart';
 import 'package:mozart_flutter_app/features/admin/admin_home_screen/presentation/screens/category/details_category.dart';
 import 'package:mozart_flutter_app/features/admin/admin_home_screen/presentation/screens/product/details_product.dart';
 import 'package:mozart_flutter_app/features/auth/data/data_provider/local/cach_keys.dart';
@@ -21,6 +23,8 @@ import 'package:mozart_flutter_app/utils/custom_widgets/custom_stackbar.dart';
 import 'package:mozart_flutter_app/utils/custom_widgets/navigation.dart';
 import 'package:mozart_flutter_app/utils/styles/colors.dart';
 import 'package:mozart_flutter_app/utils/styles/fonts.dart';
+
+import '../products-screen.dart';
 
 class AdminHomeScreen extends StatelessWidget {
   const AdminHomeScreen({Key? key}) : super(key: key);
@@ -65,113 +69,54 @@ class AdminHomeScreen extends StatelessWidget {
               return SingleChildScrollView(
                 child: Column(
                   children: [
-                    homeCubit.bannerModel == null ||
-                            homeCubit.bannerModel!.data!.images == null ||
-                            homeCubit.bannerModel!.data!.images!.isEmpty
-                        ? Container()
-                        : Row(
-                            children: [
-                              CustomButtonWidget(
-                                text: AppLocalizations.of(context)!.edit,
-                                height: 35.h,
-                                width: 120.w,
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    RouteName.editBannerRoute,
-                                    arguments:
-                                        homeCubit.bannerModel!.data!.sId!,
-                                  );
-                                },
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            height: 45,
+                            decoration: BoxDecoration(
+                                color: Colors.green,
+                                borderRadius: BorderRadius.circular(12)),
+                            child: MaterialButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return ProductsScreen();
+                                    },
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                'اضافة منتج الي البانر',
+                                style: GoogleFonts.tajawal(color: Colors.white),
                               ),
-                              const Spacer(),
-                              state is DeleteAllImagesInBannerLoadingState
-                                  ? const Center(
-                                      child: CustomLoading(),
-                                    )
-                                  : CustomButtonWidget(
-                                      text:
-                                          AppLocalizations.of(context)!.delete,
-                                      height: 35.h,
-                                      width: 120.w,
-                                      onPressed: () {
-                                        /// Delete All Banners Function
-                                        adminHomeCubit
-                                            .deleteAllImagesInBannerFunction(
-                                          bannerId:
-                                              homeCubit.bannerModel!.data!.sId!,
-                                        );
-                                      },
-                                    ),
-                            ],
+                            ),
                           ),
-
-                    homeCubit.bannerModel == null ||
-                            homeCubit.bannerModel!.data == null ||
-                            homeCubit.bannerModel!.data!.images == null
-                        ? Container()
-                        : const SliderHome(),
-
-                    homeCubit.bannerModel == null
-                        ? const Center(child: CustomLoading())
-                        : homeCubit.bannerModel!.data == null ||
-                                homeCubit.bannerModel!.data!.images == null
-                            ? CustomButtonWidget(
-                                text:
-                                    AppLocalizations.of(context)!.addnewbanner,
-                                height: 49.h,
-                                width: 335.w,
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, RouteName.addNewBanner);
-                                },
-                              )
-                            : Container(),
-                    SizedBox(height: 10.h),
-
-                    // /// Two Containers
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.center,
-                    //   children: [
-                    //     GestureDetector(
-                    //       onTap: () {
-                    //         // Navigator.pushNamed(
-                    //         //     context, RouteName.getAllProductsRoute);
-                    //       },
-                    //       child: DottedBorder(
-                    //         borderType: BorderType.RRect,
-                    //         radius: Radius.circular(8.r),
-                    //         color: AppColors.primaryColor,
-                    //         child: CustomContainer(
-                    //           height: 80.h,
-                    //           width: 160.w,
-                    //           color: AppColors.white,
-                    //           text:
-                    //               '${AppLocalizations.of(context)!.onlyattomato200products} ${homeCubit.productModel == null ? '...' : homeCubit.productModel!.data!.length} ${AppLocalizations.of(context)!.product}',
-                    //           textStyle: AppFonts.primarytext.copyWith(
-                    //               color: Colors.black, fontSize: 13.sp),
-                    //           image: AppAssets.logoIcon2,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     SizedBox(width: 15.w),
-                    //     DottedBorder(
-                    //       borderType: BorderType.RRect,
-                    //       radius: Radius.circular(8.r),
-                    //       color: AppColors.primaryColor,
-                    //       child: CustomContainer(
-                    //         height: 80.h,
-                    //         width: 160.w,
-                    //         color: AppColors.white,
-                    //         text: AppLocalizations.of(context)!
-                    //             .availableinoffersweekly20products,
-                    //         textStyle:
-                    //             AppFonts.primarytext.copyWith(fontSize: 13.sp),
-                    //         image: AppAssets.discount,
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
+                          Container(
+                            height: 45,
+                            decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(12)),
+                            child: MaterialButton(
+                              onPressed: () {
+                                homeCubit.deleteBanners(context);
+                                Navigator.pushNamed(
+                                    context, RouteName.adminHomeLayoutRoute);
+                              },
+                              child: Text(
+                                'مسح جميع البانر',
+                                style: GoogleFonts.tajawal(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    BannerAdminScreen(),
 
                     /// Categories
                     Padding(
@@ -258,73 +203,11 @@ class AdminHomeScreen extends StatelessWidget {
                                             ),
                                           ),
                                         );
-                                        // await Navigator.pushNamed(
-                                        //   context,
-                                        //   RouteName
-                                        //       .detailsCategoryRoute,
-                                        //   arguments: homeCubit
-                                        //       .categoryModel!.data![index].sId!,
-                                        // );
                                       },
                                     );
                                   },
                                 ),
                               ),
-
-                    // Padding(
-                    //   padding: EdgeInsets.symmetric(vertical: 12.h),
-                    //   child: Row(
-                    //     children: [
-                    //       CustomCategory(
-                    //         image: AppAssets.category1,
-                    //         text: AppLocalizations.of(context)!.icecreame,
-                    //         onTap: () {},
-                    //       ),
-                    //       CustomCategory(
-                    //         image: AppAssets.category2,
-                    //         text: AppLocalizations.of(context)!.meatandchicken,
-                    //         onTap: () {},
-                    //       ),
-                    //       CustomCategory(
-                    //         image: AppAssets.category3,
-                    //         text: AppLocalizations.of(context)!.waters,
-                    //         onTap: () {},
-                    //       ),
-                    //       CustomCategory(
-                    //         image: AppAssets.category4,
-                    //         text: AppLocalizations.of(context)!.colddrinks,
-                    //         onTap: () {},
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                    // Padding(
-                    //   padding: EdgeInsets.symmetric(vertical: 12.h),
-                    //   child: Row(
-                    //     children: [
-                    //       CustomCategory(
-                    //         image: AppAssets.category5,
-                    //         text: AppLocalizations.of(context)!.fruitsandvegetables,
-                    //         onTap: () {},
-                    //       ),
-                    //       CustomCategory(
-                    //         image: AppAssets.category6,
-                    //         text: AppLocalizations.of(context)!.bakedgoods,
-                    //         onTap: () {},
-                    //       ),
-                    //       CustomCategory(
-                    //         image: AppAssets.category7,
-                    //         text: AppLocalizations.of(context)!.dairyandmilk,
-                    //         onTap: () {},
-                    //       ),
-                    //       CustomCategory(
-                    //         image: AppAssets.category8,
-                    //         text: AppLocalizations.of(context)!.thebreakfast,
-                    //         onTap: () {},
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
 
                     /// Products
                     Padding(
@@ -354,26 +237,6 @@ class AdminHomeScreen extends StatelessWidget {
                       ),
                     ),
 
-                    // SizedBox(
-                    //   height: 155.h,
-                    //   width: double.infinity,
-                    //   child: ListView.builder(
-                    //       scrollDirection: Axis.horizontal,
-                    //       itemCount: image.length,
-                    //       itemBuilder: (context, index) {
-                    //         return GestureDetector(
-                    //           onTap: () {
-                    //             Navigator.pushNamed(
-                    //                 context, RouteName.detailsProductRoute);
-                    //           },
-                    //           child: CustomProduct(
-                    //             image: image[index],
-                    //             text1: AppLocalizations.of(context)!.helloketchup,
-                    //             text2: "3500 دع",
-                    //           ),
-                    //         );
-                    //       }),
-                    // ),
                     state is GetProductHighNySoldLoadingState ||
                             homeCubit.productModel == null
                         ? Padding(
@@ -386,58 +249,36 @@ class AdminHomeScreen extends StatelessWidget {
                                 padding: EdgeInsets.only(top: 20.h),
                                 child: const CustomLoading(),
                               )
-                            : Container(
-                                margin: EdgeInsets.only(bottom: 20.h),
-                                height: homeCubit.bannerModel!.data!.images ==
-                                        null
-                                    ? MediaQuery.of(context).size.height * 0.38
-                                    : 155.h,
-                                width: double.infinity,
-                                child: GridView.builder(
-                                    // scrollDirection: Axis.horizontal,
-                                    gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      childAspectRatio: 1.1.h,
-                                    ),
-                                    itemCount:
-                                        homeCubit.productModel!.data!.length,
-                                    itemBuilder: (context, index) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          // Navigator.push(
-                                          //   context,
-                                          //   FadePageRoute(
-                                          //     builder: (context) => DetailsProduct(
-                                          //       // productId: homeCubit
-                                          //       //     .productModel!.data![index].id!,
-                                          //     ),
-                                          //   ),
-                                          // );
-                                          // homeCubit.getSpecificProductFunction(
-                                          //   productId: homeCubit
-                                          //       .productModel!.data![index].id!,
-                                          // );
-                                        },
-                                        child: CustomProduct(
-                                          cubit: homeCubit,
-                                            model: homeCubit
-                                                .productModel!.data![index],
-                                            width: 180.w,
-                                            image: homeCubit.productModel!
-                                                .data![index].image!.url!,
-                                            text1: MyCache.getString(
-                                                        key: CacheKeys.lang) ==
-                                                    'ar'
-                                                ? homeCubit.productModel!
-                                                    .data![index].titleAr!
-                                                : homeCubit.productModel!
-                                                    .data![index].title!,
-                                            text2:
-                                                '${MyCache.getString(key: CacheKeys.role) == 'user-normal' ? homeCubit.productModel!.data![index].priceNormal : homeCubit.productModel!.data![index].priceWholesale} ${AppLocalizations.of(context)!.egp}'),
-                                      );
-                                    }),
-                              ),
+                            : GridView.builder(
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  childAspectRatio: 1.1.h,
+                                ),
+                                itemCount: homeCubit.productModel!.data!.length,
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                    onTap: () {},
+                                    child: CustomProduct(
+                                        cubit: homeCubit,
+                                        model: homeCubit
+                                            .productModel!.data![index],
+                                        width: 180.w,
+                                        image: homeCubit.productModel!
+                                            .data![index].image!.url!,
+                                        text1: MyCache.getString(
+                                                    key: CacheKeys.lang) ==
+                                                'ar'
+                                            ? homeCubit.productModel!
+                                                .data![index].titleAr!
+                                            : homeCubit.productModel!
+                                                .data![index].title!,
+                                        text2:
+                                            '${MyCache.getString(key: CacheKeys.role) == 'user-normal' ? homeCubit.productModel!.data![index].priceNormal : homeCubit.productModel!.data![index].priceWholesale} ${AppLocalizations.of(context)!.egp}'),
+                                  );
+                                }),
                   ],
                 ),
               );
