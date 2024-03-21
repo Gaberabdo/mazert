@@ -6,13 +6,31 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.1.2 <4.0.0'
+  sdk: '>=3.1.0 <4.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
+
+  # Check The Internet
+  connectivity: ^3.0.6
+
+  country_picker: ^2.0.22
+
+  flutter_time_picker_spinner: ^2.0.0
+
+  # Get Location
+  geolocator: ^10.1.0
+  geocoding:
+  google_maps_flutter: ^2.5.0
+  maps_launcher: ^2.2.0
+#  flutter_map_marker_popup:
+#  flutter_map:
+
+  # Loading
+  shimmer: ^3.0.0
 
   # StateManagement
   bloc: ^8.1.2
@@ -22,21 +40,25 @@ dependencies:
   # Local Storage
   shared_preferences: ^2.2.2
 
+  # Choose Image
+  image_picker: ^0.8.4+3
+
   #launch_review:
   flutter_rating_bar:
 
   # To Go Another App
-  url_launcher: ^6.2.1
-
+  url_launcher:
+  excel:
   carousel_slider:
-
+  file_picker:
+  path_provider: ^2.0.11
   # Custom Field On OTP
   pinput: ^3.0.1
   #phone text field
   intl_phone_number_input: ^0.7.3+1
 
   # Lottie Files
-  lottie: ^2.7.0
+  lottie:
 
   # SVG Picture
   flutter_svg: ^2.0.9
@@ -50,8 +72,14 @@ dependencies:
   # To Create Animation Between Navigation
   page_transition: ^2.1.0
 
- # boder
+ # border
   dotted_border: ^2.1.0
+
+  # Image Network
+  cached_network_image: ^3.3.0
+
+  # Animation Smooth
+  smooth_page_indicator: ^1.1.0
 
   # font
   google_fonts:

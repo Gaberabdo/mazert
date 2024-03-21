@@ -10,14 +10,16 @@ class DioHelper {
   Dio dio = Dio();
 
   Future<Response> getData({required String endPoint}) async {
+    print('Before response');
     Response response = await dio.get(
       AppConstants.baseUrl + endPoint,
       options: Options(
         headers: {
-          "x-api-key": "6c20f27d-1f96-4be9-ac5d-b582305474a6",
+          "authorization": "Bearer ${MyCache.getString(key: CacheKeys.token)}",
         },
       ),
     );
+    print('After response');
     return response;
   }
 
@@ -33,7 +35,8 @@ class DioHelper {
         data: body,
         options: Options(
           headers: {
-            "x-api-key": "6c20f27d-1f96-4be9-ac5d-b582305474a6",
+            "authorization":
+                "Bearer ${MyCache.getString(key: CacheKeys.token)}",
           },
         ),
       );
@@ -96,7 +99,7 @@ class DioHelper {
     return await dio.patch('${AppConstants.baseUrl}$endPoint',
         data: body,
         options: Options(headers: {
-          "x-api-key": "6c20f27d-1f96-4be9-ac5d-b582305474a6",
+          "authorization": "Bearer ${MyCache.getString(key: CacheKeys.token)}",
         }));
   }
 
@@ -122,7 +125,7 @@ class DioHelper {
     return await dio.delete(AppConstants.baseUrl + endPoint,
         data: body,
         options: Options(headers: {
-          "x-api-key": "6c20f27d-1f96-4be9-ac5d-b582305474a6",
+          "authorization": "Bearer ${MyCache.getString(key: CacheKeys.token)}",
         }));
   }
 

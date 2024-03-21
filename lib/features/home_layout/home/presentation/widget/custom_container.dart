@@ -24,7 +24,7 @@ class CustomContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10.w),
+      padding: EdgeInsets.symmetric(horizontal: 0.w),
       child: Container(
         padding: EdgeInsets.all(7.sp),
         height: height,
@@ -32,6 +32,14 @@ class CustomContainer extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8.r),
             color: color,
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.primaryColor,
+              spreadRadius: 0.01,
+              blurRadius: 2.r,
+              offset: Offset(1, 1),
+            ),
+          ]
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -46,7 +54,7 @@ class CustomContainer extends StatelessWidget {
             Image.asset(
               image,
               width: 60.w,
-              height: 60.h,
+              height: 80.h,
             )
           ],
         ),

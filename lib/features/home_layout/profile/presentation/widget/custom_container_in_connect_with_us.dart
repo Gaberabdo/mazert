@@ -37,7 +37,7 @@ String image;
             ),
             ),
             Spacer(),
-           provider.AppLanguage=="en"?Icon(Icons.arrow_forward_ios,
+           provider.appLanguage=="en"?Icon(Icons.arrow_forward_ios,
            color: AppColors.grey,
                size: 15.sp,
            ):Icon(Icons.arrow_back_ios,

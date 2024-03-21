@@ -1,7 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mozart_flutter_app/utils/styles/colors.dart';
+
 class CustomButtonWidget extends StatelessWidget {
   const CustomButtonWidget({
     super.key,
@@ -19,6 +20,7 @@ class CustomButtonWidget extends StatelessWidget {
     this.borderRadius = 24,
     this.fontStyle,
     this.margin,
+    this.onButtonPressed,
   }) : assert(child != null || text != null);
   final Function()? onPressed;
   final Color? color;
@@ -34,6 +36,8 @@ class CustomButtonWidget extends StatelessWidget {
   final double borderRadius;
   final TextStyle? fontStyle;
   final EdgeInsetsGeometry? margin;
+  final Function(String?)? onButtonPressed;
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,19 +48,19 @@ class CustomButtonWidget extends StatelessWidget {
         height: height,
         width: width,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5.r),
-            color: AppColors.primaryColor
+          borderRadius: BorderRadius.circular(5.r),
+          color: AppColors.primaryColor,
         ),
         child: Center(
-          child: Text(text!,
-            style:TextStyle(
+          child: Text(
+            text!,
+            style: GoogleFonts.cairo(
               color: AppColors.white,
               fontSize: 18.sp,
-                fontWeight: FontWeight.w500
-            )
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
-
       ),
     );
   }
