@@ -40,6 +40,8 @@ class AuthCubit extends Cubit<AuthState> {
                   })
         .then((response) {
       userModel = UserModel.fromJson(response.data);
+
+      print(response.data);
       MyCache.putString(key: CacheKeys.token, value: userModel.token!);
       MyCache.putString(key: CacheKeys.role, value: userModel.data!.role!);
       MyCache.putString(key: CacheKeys.fullName, value: userModel.data!.name!);
@@ -47,6 +49,7 @@ class AuthCubit extends Cubit<AuthState> {
       MyCache.putBoolean(key: CacheKeys.active, value: userModel.data!.active!);
       MyCache.putString(key: CacheKeys.userId, value: response.data['data']['userId']);
       print(MyCache.getString(key: CacheKeys.token));
+      print("************************************${MyCache.getString(key: CacheKeys.token)}");
       emit(LoginSuccessState());
     }).catchError((error) {
       print('Login error is $error');

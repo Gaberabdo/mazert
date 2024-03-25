@@ -44,15 +44,23 @@ class HomeCubit extends Cubit<HomeState> {
   /// Get Banner
   Future<void> getBanner() async {
     emit(GetBannersLoadingState());
-    await dioHelper
-        .getData(endPoint: AppConstants.getBannerUrl)
-        .then((response) {
+    try {
+      final response = await dioHelper.getData(
+        endPoint: AppConstants.getBannerUrl,
+
+      );
+
       bannerModel = BannerModel.fromJson(response.data);
+      print(response.data);
       emit(GetBannersSuccessState());
-    }).catchError((error) {
-      print('Get Banner error is $error');
+    } on DioException catch (e) {
+      print(e.error);
+      print(e.response);
+      print(e.message);
+
+      print('Get Banner error is $e');
       emit(GetBannersErrorState());
-    });
+    }
   }
 
   Future<void> getSpecificBanner({required String bannerId}) async {
