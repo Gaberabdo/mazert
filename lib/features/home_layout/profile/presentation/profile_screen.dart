@@ -135,7 +135,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               text: AppLocalizations.of(context)!
                                   .doyouwanttologout,
                               onPressed: () {
-                                MyCache.removeFromShared(key: CacheKeys.token);
+                                MyCache.clearShared();
                                 Navigator.pushReplacementNamed(
                                   context,
                                   RouteName.loginRoute,

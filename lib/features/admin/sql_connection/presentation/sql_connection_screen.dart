@@ -9,6 +9,8 @@ import 'package:mozart_flutter_app/utils/styles/colors.dart';
 import 'package:mozart_flutter_app/utils/styles/fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'choice_screen.dart';
+
 class SqlConnectionScreen extends StatefulWidget {
   const SqlConnectionScreen({super.key});
 
@@ -160,14 +162,20 @@ class _SqlConnectionScreenState extends State<SqlConnectionScreen> {
                     /// Button
                     CustomButtonWidget(
                       onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          print(isMale);
-                          print(serverNameController.text);
-                          print(userNameController.text);
-                          print(passwordController.text);
-                          print(dbNameController.text);
-                          Navigator.pushNamed(context, RouteName.choiceScreenAfterSQLConnection);
-                        }
+
+                        print(isMale);
+                        print(serverNameController.text);
+                        print(userNameController.text);
+                        print(passwordController.text);
+                        print(dbNameController.text);
+                        Navigator.push(context, MaterialPageRoute(builder: (context){
+                          return ChoiceScreenAfterSQLConnection(
+                            user: userNameController.text??'as',
+                            server: serverNameController.text??'DESKTOP-NDRHRIF',
+                            database:dbNameController.text??'OnlineStore',
+                            password: passwordController.text??'sql2001',
+                          );
+                        }));
                       },
                       borderRadius: 10.r,
                       text: AppLocalizations.of(context)!.save,

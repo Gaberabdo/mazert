@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:mozart_flutter_app/features/admin/sql_connection/data/data_provider/remote/dio_helper.dart';
@@ -14,29 +15,70 @@ class SqlCubit extends Cubit<SqlState> {
 
   /// Sql Function
   Future<void> sqlFunction({
-    required String user,
-    required String password,
-    required String server,
-    required String database,
+    String? user,
+    String? password,
+    String? server,
+    String? database,
     required String syncMethod,
     required String syncTime,
     required bool wantSync,
   }) async {
     emit(SqlLoadingState());
-    await sqlDioHelper.postData(endPoint: SQLConstants.sqlUrl, body: {
-        "user": "sa",
-        "password": "123",
-        "server": "DESKTOP-JLL2NO7",
-        "database": "newdb",
-        "syncMethod": "once",
-        "syncTime":"1:13 PM",
-        "wantSync": true,
-    }).then((response) {
+    try {
+      final dio = Dio();
+      final response = await dio.post(
+        'http://localhost:8000/api/v1/configureAndSync/configure-sync',
+        data: {
+          "user": user ?? "sa",
+          "password": password ?? "sql2001",
+          "server": server ?? "DESKTOP-NDRHRIF",
+          "database": database ?? "OnlineStore",
+          "syncMethod": syncMethod,
+          "syncTime": syncTime,
+          "wantSync": true,
+
+        },
+      );
+      if (response.statusCode == 200) {
+        print(response.data);
+      }else{
+        print('A network error occurred');
+      }
       print(response.data);
       emit(SqlSuccessState());
-    }).catchError((error) {
+    } catch (error) {
       print(error);
       emit(SqlErrorState());
-    });
+    }
   }
+  Future<void> saveDataToServer() async {
+    try {
+      final dio = Dio();
+      final response = await dio.post(
+        'http://localhost:8000/api/v1/configureAndSync/configure-sync',
+        data: {
+          "user": "sa",
+          "password": "sql2001",
+          "server": "DESKTOP-NDRHRIF",
+          "database": "OnlineStore",
+          "syncMethod": "now",
+          "syncTime": "7:41 PM",
+          "wantSync": true,
+        },
+      );
+      if (response.statusCode == 200) {
+        print(response.data);
+      } else {
+        print('A network error occurred');
+      }
+
+      print('Response status: ${response.statusCode}');
+      print('Response data: ${response.data}');
+    } catch (error) {
+      print('Error sending data: $error');
+    }
+  }
+
+
+
 }

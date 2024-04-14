@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mozart_flutter_app/config/app_assets.dart';
 import 'package:mozart_flutter_app/config/app_routes.dart';
+import 'package:mozart_flutter_app/features/admin/admin_home_screen/presentation/screens/bannner/Banner2-screen.dart';
 import 'package:mozart_flutter_app/features/auth/data/data_provider/local/cach_keys.dart';
 import 'package:mozart_flutter_app/features/auth/data/data_provider/local/cache.dart';
 import 'package:mozart_flutter_app/features/auth/managers/auth_cubit.dart';
@@ -48,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => HomeCubit()
-        ..getBanner()
+        ..getBanners()
         ..getProductInHighSold()
         ..getCategoryList(),
       child: BlocConsumer<HomeCubit, HomeState>(
@@ -67,7 +68,10 @@ class _HomeScreenState extends State<HomeScreen> {
           return SingleChildScrollView(
             child: Column(
               children: [
-                const SliderHome(),
+                 Padding(
+                   padding: const EdgeInsets.all(8.0),
+                   child: BannerScreen(),
+                 ),
                 // Row(
                 //   mainAxisAlignment: MainAxisAlignment.center,
                 //   children: [

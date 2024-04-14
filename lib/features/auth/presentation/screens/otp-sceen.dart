@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mozart_flutter_app/utils/styles/colors.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -49,6 +50,8 @@ class OtpScreen extends StatelessWidget {
           var cubit = AuthCubit.get(context);
           return Scaffold(
             appBar: AppBar(
+              backgroundColor: AppColors.primaryColor,
+
               title: Text(
                 AppLocalizations.of(context)!.verify,
                 style: GoogleFonts.poppins(
@@ -65,7 +68,7 @@ class OtpScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text('Check Sms in Number:${phoneNumber}',
                         style: GoogleFonts.tajawal(fontSize: 20, fontWeight: FontWeight.w700),),

@@ -43,8 +43,9 @@ class MozartApp extends StatelessWidget {
             /// User
             BlocProvider(
               create: (context) => HomeCubit()
-                ..getBanner()
+                ..getBanners()
                 ..getCategory()
+
                 ..getCategoryList()
                 ..getProductInHighSold()
                 ..getAllProductsFunction(),
@@ -108,10 +109,10 @@ class MozartApp extends StatelessWidget {
             title: 'Mozart Application',
             // home: SplashScreen(),
             theme: ThemeData(
-              // colorScheme: ColorScheme.fromSwatch(
-              //   accentColor: AppColors.primaryColor.withOpacity(0.4),
-              // ),
-            ),
+                // colorScheme: ColorScheme.fromSwatch(
+                //   accentColor: AppColors.primaryColor.withOpacity(0.4),
+                // ),
+                ),
             onGenerateRoute: RouteGenerator.getRoute,
             initialRoute: RouteName.splashRoute,
             // home: LocationDetailsScreen(),

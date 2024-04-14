@@ -7,20 +7,17 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../payment-screen.dart';
 
 class CustomEmptyWashlist extends StatelessWidget {
-  const CustomEmptyWashlist ({Key? key}) : super(key: key);
+  const CustomEmptyWashlist({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return CustomEmpty(image: AppAssets.cart,
+    return CustomEmpty(
+      image: AppAssets.cart,
       text: AppLocalizations.of(context)!.youhavenotaddedanyproductyet,
-    onTap: () {
-      // Navigator.pushReplacementNamed(context, RouteName.homeLayoutRoute);
-      Navigator.push(context, MaterialPageRoute(builder: (context){
-        return MoamalatPay(
-          amount: '100',
-        );
-      }));
-    },
-    textButton: AppLocalizations.of(context)!.startbrowsing,);
+      onTap: () {
+        Navigator.pushReplacementNamed(context, RouteName.homeLayoutRoute);
+      },
+      textButton: AppLocalizations.of(context)!.startbrowsing,
+    );
   }
 }

@@ -406,7 +406,7 @@ class RouteGenerator {
         );
       case RouteName.detailsUser:
         // Data allUsersModel = settings.arguments as Data;
-      String id = settings.arguments as String;
+        String id = settings.arguments as String;
         return PageTransition(
           child: DetailsUser(
             // allUsersModel: allUsersModel,
@@ -472,7 +472,8 @@ class RouteGenerator {
           reverseDuration: const Duration(milliseconds: 250),
         );
       case RouteName.mapToSearchRouteInEditUser:
-        final Map<String, dynamic> map = settings.arguments as Map<String, dynamic>;
+        final Map<String, dynamic> map =
+            settings.arguments as Map<String, dynamic>;
 
         return PageTransition(
           child: AdminMapToSearchInEditUser(map: map),
@@ -481,7 +482,8 @@ class RouteGenerator {
           reverseDuration: const Duration(milliseconds: 250),
         );
       case RouteName.mapToSelectAnotherLocationRoute:
-        final Map<String, dynamic> map = settings.arguments as Map<String, dynamic>;
+        final Map<String, dynamic> map =
+            settings.arguments as Map<String, dynamic>;
 
         return PageTransition(
           child: MapToSelectAnotherLocation(map: map),
@@ -536,7 +538,8 @@ class RouteGenerator {
           reverseDuration: const Duration(milliseconds: 250),
         );
       case RouteName.editUserRoute:
-        final Map<String, dynamic> map = settings.arguments as Map<String, dynamic>;
+        final Map<String, dynamic> map =
+            settings.arguments as Map<String, dynamic>;
 
         return PageTransition(
           child: AdminEditUser(map: map),
@@ -557,7 +560,15 @@ class RouteGenerator {
         final productId = settings.arguments as String;
 
         return PageTransition(
-          child: EditToProduct(productId: productId, title: 'title', titleAr: 'titleAr', description: 'description', descriptionAr: 'descriptionAr', quantity: 'quantity', priceNormal: 'priceNormal', priceWholesale: 'priceWholesale'),
+          child: EditToProduct(
+              productId: productId,
+              title: 'title',
+              titleAr: 'titleAr',
+              description: 'description',
+              descriptionAr: 'descriptionAr',
+              quantity: 'quantity',
+              priceNormal: 'priceNormal',
+              priceWholesale: 'priceWholesale'),
           type: PageTransitionType.fade,
           settings: settings,
           reverseDuration: const Duration(milliseconds: 250),
@@ -634,7 +645,12 @@ class RouteGenerator {
         );
       case RouteName.choiceScreenAfterSQLConnection:
         return PageTransition(
-          child: ChoiceScreenAfterSQLConnection(),
+          child: ChoiceScreenAfterSQLConnection(
+            user: 'user',
+            password: 'password',
+            server: 'server',
+            database: 'database',
+          ),
           type: PageTransitionType.fade,
           settings: settings,
           reverseDuration: const Duration(milliseconds: 250),
@@ -671,8 +687,10 @@ class RouteName {
   static const String programmerRoute = 'programmerRoute';
   static const String editCategoryRoute = 'editCategoryRoute';
   static const String loginRoute = 'login-screen';
-  static const String forgetPasswordByEmailRoute = 'forgetPassword-by-email-screen';
-  static const String forgetPasswordByPhoneRoute = 'forgetPassword-by-phone-screen';
+  static const String forgetPasswordByEmailRoute =
+      'forgetPassword-by-email-screen';
+  static const String forgetPasswordByPhoneRoute =
+      'forgetPassword-by-phone-screen';
   static const String resetPasswordRoute = 'resetPassword-screen';
   static const String newPasswordRoute = 'newPassword-screen';
   static const String registerRoute = 'register-screen';
@@ -703,7 +721,8 @@ class RouteName {
   static const String getCategoriesRoute = 'getCategories-screen';
   static const String getMyReviewsRoute = 'getMyReviews-screen';
   static const String getAllProductsRoute = 'getProducts-screen';
-  static const String mapToSelectAnotherLocationRoute = 'mapToSelectAnotherLocationRoute';
+  static const String mapToSelectAnotherLocationRoute =
+      'mapToSelectAnotherLocationRoute';
 
   /// Amin
   static const String adminHomeLayoutRoute = 'adminHomeLayoutRoute';
@@ -736,12 +755,15 @@ class RouteName {
   static const String userNormalOrdersRoute = 'userNormalOrdersRoute';
   static const String userNormalOrdersRouteAdmin = 'userNormalOrdersRouteAdmin';
   static const String userWholesaleOrdersRoute = 'userWholesaleOrdersRoute';
-  static const String userWholesaleOrdersRouteAdmin = 'userWholesaleOrdersRouteAdmin';
+  static const String userWholesaleOrdersRouteAdmin =
+      'userWholesaleOrdersRouteAdmin';
   static const String editeToOrderData = 'editeToOrderData';
   static const String mapToSearchRouteInEditUser = 'mapToSearchRouteInEditUser';
   static const String editUserRoute = 'editUserRoute';
   static const String editToProduct = 'editToProduct';
+
   /// Connection
   static const String sqlConnection = 'sqlConnection';
-  static const String choiceScreenAfterSQLConnection = 'choiceScreenAfterSQLConnection';
+  static const String choiceScreenAfterSQLConnection =
+      'choiceScreenAfterSQLConnection';
 }

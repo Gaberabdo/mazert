@@ -8,10 +8,8 @@ class MyCache {
     preferences = await SharedPreferences.getInstance();
   }
 
-  static Future<bool?> putString({
-    required CacheKeys key,
-    required String value,
-  }) async {
+  static Future<bool?> putString(
+      {required CacheKeys key, required String value}) async {
     return await preferences?.setString(key.name, value);
   }
 
@@ -19,12 +17,13 @@ class MyCache {
     required CacheKeys key,
   }) {
     return preferences?.getString(
-          key.name,
-        ) ??
+      key.name,
+    ) ??
         '';
   }
 
-  static void putBoolean({required CacheKeys key, required bool value}) async {
+  static void putBoolean(
+      {required CacheKeys key, required bool value}) async {
     await preferences?.setBool(key.name, value);
   }
 
@@ -33,8 +32,8 @@ class MyCache {
     required CacheKeys key,
   }) {
     return preferences?.getBool(
-          key.name,
-        ) ??
+      key.name,
+    ) ??
         defaultValue;
   }
 
@@ -46,12 +45,13 @@ class MyCache {
     required CacheKeys key,
   }) {
     return preferences?.getInt(
-          key.name,
-        ) ??
+      key.name,
+    ) ??
         0;
   }
 
-  static void putDouble({required CacheKeys key, required double value}) async {
+  static void putDouble(
+      {required CacheKeys key, required double value}) async {
     await preferences?.setDouble(key.name, value);
   }
 
@@ -59,8 +59,8 @@ class MyCache {
     required CacheKeys key,
   }) {
     return preferences?.getDouble(
-          key.name,
-        ) ??
+      key.name,
+    ) ??
         0.0;
   }
 

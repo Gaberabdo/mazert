@@ -114,7 +114,7 @@ class _AdminAddNewBannerState extends State<AdminAddNewBanner> {
     return BlocConsumer<AdminHomeCubit, AdminHomeState>(
       listener: (context, state) {
         if (state is CreateBannerSuccessState) {
-          BlocProvider.of<HomeCubit>(context).getBanner();
+          BlocProvider.of<HomeCubit>(context).getBanners();
           Navigator.pushReplacementNamed(
               context, RouteName.adminHomeLayoutRoute);
           return CustomSnackBar.showMessage(

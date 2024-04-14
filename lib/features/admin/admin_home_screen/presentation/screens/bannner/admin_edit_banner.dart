@@ -58,7 +58,7 @@ class _AdminEditBannerState extends State<AdminEditBanner> {
               if (state is UpdateImageInBannerSuccessState) {
                 Navigator.pushReplacementNamed(
                     context, RouteName.adminHomeLayoutRoute);
-                BlocProvider.of<HomeCubit>(context).getBanner();
+                BlocProvider.of<HomeCubit>(context).getBanners();
                 return CustomSnackBar.showMessage(
                   context,
                   message: 'تمت عملية التعديل بنجاح',

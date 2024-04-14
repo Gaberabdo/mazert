@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -16,7 +17,7 @@ import 'package:mozart_flutter_app/features/home_layout/home/data/models/specifi
 import 'package:mozart_flutter_app/features/home_layout/home/data/models/specific_category.dart';
 import 'package:mozart_flutter_app/features/home_layout/home/data/models/specific_product_model.dart';
 import 'package:mozart_flutter_app/utils/constants/constants.dart';
-
+import 'package:http/http.dart' as http;
 import '../../../../core/dio-helper.dart';
 import '../../../../utils/custom_widgets/custom_stackbar.dart';
 import '../../../admin/admin_home_screen/models/banner2-model.dart';
@@ -42,26 +43,6 @@ class HomeCubit extends Cubit<HomeState> {
   SpecificCategoryModel? specificCategoryModel;
 
   /// Get Banner
-  Future<void> getBanner() async {
-    emit(GetBannersLoadingState());
-    try {
-      final response = await dioHelper.getData(
-        endPoint: AppConstants.getBannerUrl,
-
-      );
-
-      bannerModel = BannerModel.fromJson(response.data);
-      print(response.data);
-      emit(GetBannersSuccessState());
-    } on DioException catch (e) {
-      print(e.error);
-      print(e.response);
-      print(e.message);
-
-      print('Get Banner error is $e');
-      emit(GetBannersErrorState());
-    }
-  }
 
   Future<void> getSpecificBanner({required String bannerId}) async {
     emit(GetSpecificBannersLoadingState());
@@ -260,17 +241,29 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   /// Add To Cart
-  Future<void> addToCart({required String productId, int? quantity}) async {
+  Future<void> addToCart({
+    required String productId,
+    int? quantity,
+  }) async {
+    print('Add To Cart');
+    print(productId);
+    print(quantity);
+    print(MyCache.getString(key: CacheKeys.token));
     emit(AddToCartLoadingState());
-    await dioHelper.postData(endPoint: AppConstants.addToCartUrl, body: {
-      'productId': productId,
-      'quantity': quantity,
-    }).then((value) {
+    try {
+      await dioHelper.postData(
+        endPoint: AppConstants.addToCartUrl,
+        body: {
+          'productId': productId,
+          'quantity': quantity,
+        },
+      );
+
       emit(AddToCartSuccessState());
-    }).catchError((error) {
-      print('Add to cart error is $error');
+    } on DioException catch (e) {
+      print('Add to cart error is ${e.message}');
       emit(AddToCartErrorState());
-    });
+    }
   }
 
   /// Add Review
@@ -360,7 +353,7 @@ class HomeCubit extends Cubit<HomeState> {
     try {
       Dio dio = Dio();
       dio.options.headers['Authorization'] =
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWYxOTYzODExMTMwZGRlZjYzZDFhZjUiLCJpYXQiOjE3MTA2MjgwNjUsImV4cCI6MTcxODQwNDA2NX0.AOAoD5F_htthhK5ZMgrv8_Hx2iN6lrtMkl2EQ2NGQRA';
+          'Bearer ${MyCache.getString(key: CacheKeys.token)}';
       Response response = await dio.delete(
           'https://onlinestore-xors.onrender.com/api/v1/banners/$productId');
       print(response.toString());
@@ -389,7 +382,7 @@ class HomeCubit extends Cubit<HomeState> {
     try {
       Dio dio = Dio();
       dio.options.headers['Authorization'] =
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWYxOTYzODExMTMwZGRlZjYzZDFhZjUiLCJpYXQiOjE3MTA2MjgwNjUsImV4cCI6MTcxODQwNDA2NX0.AOAoD5F_htthhK5ZMgrv8_Hx2iN6lrtMkl2EQ2NGQRA';
+          'Bearer ${MyCache.getString(key: CacheKeys.token)}';
       Response response = await dio
           .delete('https://onlinestore-xors.onrender.com/api/v1/banners/');
       print(response.toString());
@@ -424,7 +417,7 @@ class HomeCubit extends Cubit<HomeState> {
     try {
       Dio dio = Dio();
       dio.options.headers['Authorization'] =
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWYxOTYzODExMTMwZGRlZjYzZDFhZjUiLCJpYXQiOjE3MTA2MjgwNjUsImV4cCI6MTcxODQwNDA2NX0.AOAoD5F_htthhK5ZMgrv8_Hx2iN6lrtMkl2EQ2NGQRA';
+          'Bearer ${MyCache.getString(key: CacheKeys.token)}';
       Response response = await dio
           .get('https://onlinestore-xors.onrender.com/api/v1/products');
       print(response.toString());
@@ -451,8 +444,7 @@ class HomeCubit extends Cubit<HomeState> {
           'productIds': [productId]
         },
         url: 'banners',
-        token:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWYxOTYzODExMTMwZGRlZjYzZDFhZjUiLCJpYXQiOjE3MTA4Nzc3MDIsImV4cCI6MTcxODY1MzcwMn0.oWb-KMf7A3_JSoNz-Q5BVpMq62cSKYNFhpXSpDiIoz8',
+        token: '${MyCache.getString(key: CacheKeys.token)}',
       );
 
       print('Banner created successfully: ${response.data}');
@@ -476,32 +468,36 @@ class HomeCubit extends Cubit<HomeState> {
   Banner2Model? banner2model;
   List<Banner2Model> dataList = [];
 
-  Future<Response?> getBanners() async {
+  Future<void> getBanners() async {
     emit(GetBannersLoadingState());
+    print(MyCache.getString(key: CacheKeys.token));
     try {
-      Dio dio = Dio();
-      dio.options.headers['Authorization'] =
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWYxOTYzODExMTMwZGRlZjYzZDFhZjUiLCJpYXQiOjE3MTA2MjgwNjUsImV4cCI6MTcxODQwNDA2NX0.AOAoD5F_htthhK5ZMgrv8_Hx2iN6lrtMkl2EQ2NGQRA';
-      Response response = await dio
-          .get('https://onlinestore-xors.onrender.com/api/v1/banners/products');
-      print(response.toString());
+      var dio = Dio();
+
+      var response = await dio.request(
+        'https://onlinestore-xors.onrender.com/api/v1/banners/products/',
+        options: Options(
+          method: 'GET',
+          headers: {
+            'Authorization':
+                'Bearer ${MyCache.getString(key: CacheKeys.token)}',
+          },
+        ),
+      );
+      print('-------------------------------------${response.data}');
 
       dataList = (response.data['data'] as List)
           .map((item) => Banner2Model.fromJson(item))
           .toList();
-
-      print('Data Length: ${dataList.length}');
-      print('bannnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnners');
-
-      print('Banner Title: ${dataList[0].title}');
-      print('Banner Price: ${dataList[0].priceNormal}');
-
+      print(response.data);
       emit(GetBannersSuccessState());
-      return response;
-    } catch (error) {
-      print("Error fetching data: $error");
+    } on DioException catch (e) {
+      print(e.error);
+      print(e.response!.data);
+      print('-------------------------------------${e.response!.data}');
+      print('**********************************${e.response!.data}');
+
       emit(GetBannersErrorState());
-      return null;
     }
   }
 }

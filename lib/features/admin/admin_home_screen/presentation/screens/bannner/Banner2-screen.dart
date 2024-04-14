@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../../utils/custom_widgets/custom_shimmer.dart';
 import '../../../../../home_layout/home/managers/home_cubit.dart';
 import '../../../../../home_layout/home/presentation/product/presentation/details_product.dart';
 
@@ -15,8 +17,13 @@ class BannerScreen extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
           var cubit = HomeCubit.get(context);
-
-          if (state is GetBannersSuccessState && cubit.dataList.isNotEmpty)
+          if(state is GetBannersLoadingState){
+            return Padding(
+              padding: EdgeInsets.all(20.sp),
+              child: const ShimmerHomeVideoWidget(),
+            );
+          }
+          if (state is GetBannersSuccessState && cubit.dataList.isNotEmpty) {
             return CarouselSlider(
               options: CarouselOptions(
                 height: 200.0,
@@ -25,7 +32,7 @@ class BannerScreen extends StatelessWidget {
                 aspectRatio: 16 / 9,
                 autoPlayCurve: Curves.fastOutSlowIn,
                 enableInfiniteScroll: true,
-                autoPlayAnimationDuration: Duration(milliseconds: 800),
+                autoPlayAnimationDuration: const Duration(milliseconds: 800),
                 viewportFraction: 0.8,
               ),
               items: cubit.dataList.map((banner) {
@@ -44,7 +51,7 @@ class BannerScreen extends StatelessWidget {
                         );
                       },
                       child: Container(
-                        padding: EdgeInsets.all(4),
+                        padding: const EdgeInsets.all(4),
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                           color: Colors.amber,
@@ -60,15 +67,19 @@ class BannerScreen extends StatelessWidget {
                 );
               }).toList(),
             );
-          if (state is GetBannersSuccessState && cubit.dataList.isEmpty ||
-              cubit.dataList.length == 0)
-            return Center(
-              child: Text('No banners uploaded'),
+          }
+          if (state is GetBannersSuccessState && cubit.dataList.isEmpty || cubit.dataList.length == 0) {
+            return const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Center(
+                child: Text('No banners uploaded'),
+              ),
             );
-          else
-            return Center(
+          } else {
+            return const Center(
               child: CircularProgressIndicator(),
             );
+          }
         },
       ),
     );

@@ -35,8 +35,7 @@ class DioHelper {
         data: body,
         options: Options(
           headers: {
-            "authorization":
-                "Bearer ${MyCache.getString(key: CacheKeys.token)}",
+            "authorization": "Bearer ${MyCache.getString(key: CacheKeys.token)}",
           },
         ),
       );

@@ -38,7 +38,7 @@ class AdminHomeScreen extends StatelessWidget {
     ];
     return BlocProvider(
       create: (context) => HomeCubit()
-        ..getBanner()
+        ..getBanners()
         ..getProductInHighSold()
         ..getCategoryList(),
       child: BlocBuilder<HomeCubit, HomeState>(
@@ -49,7 +49,7 @@ class AdminHomeScreen extends StatelessWidget {
             listener: (context, state) {
               if (state is DeleteAllImagesInBannerSuccessState) {
                 print('-------Deleted----------');
-                BlocProvider.of<HomeCubit>(context).getBanner();
+                BlocProvider.of<HomeCubit>(context).getBanners();
                 return CustomSnackBar.showMessage(
                   context,
                   message: 'تمت عملية المسح بنجاح',

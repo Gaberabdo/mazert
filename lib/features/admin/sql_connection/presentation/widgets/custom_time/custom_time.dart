@@ -22,7 +22,7 @@ class _CustomTimeInBottomSheetState extends State<CustomTimeInBottomSheet> {
       ),
       child: Row(mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset("assets/images/time.jpeg",width: 30.w,),
+
           hourMinute12H(),
         ],
       ),

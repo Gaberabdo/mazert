@@ -31,7 +31,9 @@ class AuthCubit extends Cubit<AuthState> {
     required String password,
   }) async {
     emit(LoginLoadingState());
-    await dioHelper.postData(endPoint: AppConstants.loginUrl,
+    await dioHelper
+        .postData(
+            endPoint: AppConstants.loginUrl,
             body: checkEmail(email) == true
                 ? {
                     'email': email,
@@ -50,36 +52,33 @@ class AuthCubit extends Cubit<AuthState> {
       MyCache.putString(key: CacheKeys.fullName, value: userModel.data!.name!);
       MyCache.putString(key: CacheKeys.email, value: userModel.data!.email!);
       MyCache.putBoolean(key: CacheKeys.active, value: userModel.data!.active!);
-      MyCache.putString(key: CacheKeys.userId, value: response.data['data']['userId']);
+      MyCache.putString(
+          key: CacheKeys.userId, value: response.data['data']['userId']);
       print(MyCache.getString(key: CacheKeys.token));
-      print("************************************${MyCache.getString(key: CacheKeys.token)}");
+      print(
+          "************************************${MyCache.getString(key: CacheKeys.token)}");
       emit(LoginSuccessState());
     }).catchError((error) {
       print('Login error is $error');
       emit(LoginErrorState());
     });
   }
+
   ///otp
   void putData({
     required String email,
     required int otp,
-}) async {
+  }) async {
     Dio dio = Dio();
 
-
-    Map<String, dynamic> requestBody = {
-      "email":email,
-      "otp": otp
-    };
+    Map<String, dynamic> requestBody = {"email": email, "otp": otp};
 
     try {
       Response response = await dio.put(
         'https://onlinestore-xors.onrender.com/api/v1/auth/verifyAccount',
         data: requestBody,
         options: Options(
-
           headers: {
-
             'Content-Type': 'application/json',
           },
         ),
@@ -186,50 +185,46 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> updatePasswordFunction(
       {required String email, required String newPassword}) async {
     emit(UpdatePasswordLoadingState());
-    await dioHelper.putData(endPoint: AppConstants.updatePasswordUrl, body: checkEmail(email) == true
-        ?  {
-      'email': email,
-      'newPassword': newPassword,
-    } : {
-      'phone': email,
-      'newPassword': newPassword,
-    }).then((response) {
+    await dioHelper
+        .putData(
+            endPoint: AppConstants.updatePasswordUrl,
+            body: checkEmail(email) == true
+                ? {
+                    'email': email,
+                    'newPassword': newPassword,
+                  }
+                : {
+                    'phone': email,
+                    'newPassword': newPassword,
+                  })
+        .then((response) {
       emit(UpdatePasswordSuccessState());
     }).catchError((error) {
       print('Update Password error is $error');
       emit(UpdatePasswordErrorState());
     });
   }
-  ///otp
-  DioHelper2 ?dioHelper2;
-  Future<void> validateOtpCode({
 
+  ///otp
+  DioHelper2? dioHelper2;
+
+  Future<void> validateOtpCode({
     required String email,
     required String otp,
-
   }) async {
     try {
       emit(VerifyOTPLoadingState());
       final response = await DioHelper2.postData(
         url: 'https://onlinestore-xors.onrender.com/api/v1/auth/verifyAccount',
-        data: {
-
-          "email": email,
-          "otp":otp
-
-
-        },
+        data: {"email": email, "otp": otp},
       );
       print(response.data.toString());
-      if(response.statusCode==200){
+      if (response.statusCode == 200) {
         print('otttttttttttp donnne');
         emit(VerifyOTPSuccessState());
       }
-
     } on Exception catch (e) {
       emit(VerifyOTPErrorState());
     }
-
   }
 }
-
